@@ -1,0 +1,116 @@
+// layout
+* {
+    padding: 0;
+    margin: 0;
+    scroll-snap-type: y mandatory;
+}
+
+body {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.project-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    gap: 50px;
+    height: 100dvh;
+    border-bottom: 1px solid azure;
+    padding: 0 20px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.project-wrapper>* {
+    flex: 1 1;
+}
+
+.project-wrapper>.text {
+    flex-basis: 35%;
+}
+
+.project-wrapper>.picture {
+    flex-basis: 59%;
+    max-width: 70rem;
+}
+
+
+
+// navbar
+nav {
+    position: absolute;
+    width: 100%;
+    font-size: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    display: flex;
+    float: right;
+}
+
+nav a{
+    padding-right: 20px;
+}
+
+.dark {
+    background-color: #212121;
+    color: azure;
+
+    nav {
+        background-color: #313131;
+    }
+
+    a {
+        color: azure;
+    }
+
+    a:hover {
+        color: #dddddd;
+    }
+
+    .project-wrapper {
+        border-color: #eeeeee;
+    }
+}
+
+
+// picture
+img:not(#light-switch, #profile-picture) {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 1px solid #eeeeee;
+}
+
+#profile-picture {
+    max-width: 70%;
+}
+
+
+// content
+p {
+    margin: 30px 0;
+    font-size: 20px;
+}
+
+ul.list>* {
+    padding: 5px;
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+a {
+    display: flex;
+    text-decoration: none;
+    padding: 0 8px;
+    line-height: 60px;
+    height: 60px;
+    font-size: 20px;
+}
