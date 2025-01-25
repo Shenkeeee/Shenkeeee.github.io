@@ -1,4 +1,4 @@
-// layout
+/* layout */
 * {
   padding: 0;
   margin: 0;
@@ -21,10 +21,10 @@ body {
   align-items: center;
   align-content: center;
   gap: 50px;
-  height: 100svh;
+  height: 100dvh;
   padding: 0 20px;
   scroll-snap-align: start;
-  scroll-snap-stop: always; 
+  scroll-snap-stop: always;
 }
 
 .project-wrapper > * {
@@ -40,7 +40,7 @@ body {
   max-width: 70rem;
 }
 
-// navbar
+/* navbar */
 nav {
   position: absolute;
   width: 100%;
@@ -59,9 +59,9 @@ nav li {
   background-color: #212121;
   color: azure;
 
-  //   nav {
+  /* //   nav {
   //     background-color: #313131;
-  //   }
+  //   } */
 
   nav a {
     color: azure;
@@ -76,7 +76,7 @@ nav li {
   }
 }
 
-// picture
+/* picture */
 img:not(#light-switch, #profile-picture) {
   max-width: 100%;
   border-radius: 10px;
@@ -87,7 +87,7 @@ img:not(#light-switch, #profile-picture) {
   max-width: 70%;
 }
 
-// content
+/* content */
 p {
   margin: 30px 0;
   font-size: 20px;
@@ -112,7 +112,7 @@ nav a {
   padding-right: 20px;
 }
 
-// modal
+/* modal */
 .modal {
   display: none;
   position: fixed;
@@ -123,14 +123,12 @@ nav a {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.9);
 
-  /* Center content with flexbox if visible
-   */
   justify-content: center;
   align-items: center;
 
   /* Added transition for smooth fade-in/out */
   transition: opacity 0.2s ease-in-out;
-  opacity: 0; /* Hidden by default */
+  opacity: 0;
 }
 
 .modal-content {
@@ -141,9 +139,9 @@ nav a {
   width: auto; /* Automatically adjusts width */
   height: auto; /* Automatically adjusts height */
   border-radius: 10px; /* Warm yellow glow */
- 
+
   /* Ensures the image scales proportionally */
-  object-fit: contain; 
+  object-fit: contain;
 }
 
 .close {
