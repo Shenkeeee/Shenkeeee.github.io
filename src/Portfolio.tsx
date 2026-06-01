@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Portfolio() {
   const [selectedImg, setSelectedImg] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("all"); // 'all', 'react', 'angular', 'vue'
 
   // Close modal on Escape key press
   useEffect(() => {
@@ -148,6 +149,18 @@ export default function Portfolio() {
     },
   ];
 
+  // Logic helper to match technologies
+  const matchesFilter = (techString) => {
+    if (activeFilter === "all") return true;
+    return techString.toLowerCase().includes(activeFilter);
+  };
+
+  const filteredMainProjects = mainProjects.filter((p) =>
+    matchesFilter(p.tech),
+  );
+  const filteredHackathons = hackathons.filter((p) => matchesFilter(p.tech));
+  const filteredHobbyWeb = hobbyWeb.filter((p) => matchesFilter(p.tech));
+
   const renderCard = (project, idx) => (
     <div
       key={idx}
@@ -155,7 +168,7 @@ export default function Portfolio() {
     >
       <div className="flex flex-col h-full justify-between">
         <div>
-          {/* Media Window Container with smart CSS UI Backup graphic */}
+          {/* Media Window Container */}
           <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
             {project.img ? (
               <img
@@ -165,7 +178,7 @@ export default function Portfolio() {
                 className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
               />
             ) : (
-              <div className="w-full h-full bg-gray-300 flex items-center justify-center p-4 select-none">
+              <div className="w-full h-full bg-gradient-to-br from-[#242424] via-[#2c2c2c] to-[#242424] flex items-center justify-center p-4 select-none">
                 <svg
                   className="w-10 h-10 text-neutral-600/50"
                   fill="none"
@@ -176,26 +189,26 @@ export default function Portfolio() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 00.1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"
                   />
                 </svg>
               </div>
             )}
           </div>
 
-          <div className="flex items-start justify-between gap-4 mb-1">
+          <div className="flex items-start justify-between gap-4 mb-2">
             <div>
-              <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
+              <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
                 {project.title}
               </h3>
-              <div className="flex flex-wrap items-center gap-2 mt-0.5">
+              <div className="flex flex-wrap items-center gap-2 mt-1">
                 {project.subtitle && (
-                  <p className="text-xs text-neutral-400 font-medium">
+                  <p className="text-xs md:text-sm text-neutral-400 font-medium">
                     {project.subtitle}
                   </p>
                 )}
                 {project.isNonWeb && (
-                  <span className="text-[9px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-900/30 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                  <span className="text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-900/30 px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
                     Non-Web Tech
                   </span>
                 )}
@@ -215,10 +228,10 @@ export default function Portfolio() {
         </div>
 
         <div className="mt-3">
-          <p className="text-xs font-mono text-emerald-400/90 mb-3 bg-emerald-950/20 inline-block px-2 py-0.5 rounded border border-emerald-900/30">
+          <p className="text-xs font-mono text-emerald-400/90 mb-3 bg-emerald-950/20 inline-block px-2.5 py-1 rounded border border-emerald-900/30">
             {project.tech}
           </p>
-          <p className="text-xs text-neutral-300 leading-relaxed font-normal line-clamp-4">
+          <p className="text-sm text-neutral-300 leading-relaxed font-normal line-clamp-4">
             {project.desc}
           </p>
         </div>
@@ -228,27 +241,111 @@ export default function Portfolio() {
 
   return (
     <div className="bg-[#212121] text-[#f0ffff] min-h-screen snap-y snap-mandatory overflow-y-auto font-sans antialiased selection:bg-neutral-700 selection:text-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 right-0 z-50 w-full p-4 flex justify-end bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
-        <ul>
-          <li>
-            <a
-              href="https://github.com/Shenkeeee/"
-              className="text-[#f0ffff] hover:text-[#dddddd] transition-colors text-sm md:text-lg pr-3 md:pr-5 leading-[50px] md:leading-[60px] font-medium pointer-events-auto"
+      {/* Dynamic Navigation & Framework Filter Menu */}
+      <nav className="fixed top-0 left-0 z-50 w-full p-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-[2px]">
+        {/* Filter Badges Container */}
+        <div className="flex items-center gap-1.5 bg-neutral-900/90 p-1 rounded-lg border border-neutral-800 shadow-xl">
+          <button
+            onClick={() => setActiveFilter("all")}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              activeFilter === "all"
+                ? "bg-emerald-500 text-neutral-950 font-bold"
+                : "text-neutral-400 hover:text-white"
+            }`}
+          >
+            All
+          </button>
+
+          <button
+            onClick={() => setActiveFilter("react")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              activeFilter === "react"
+                ? "bg-[#00d8ff] text-neutral-950 font-bold"
+                : "text-neutral-400 hover:text-white"
+            }`}
+          >
+            {/* Corrected React SVG */}
+            <svg
+              className="w-3.5 h-3.5 fill-none stroke-current"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
-              Back to GitHub
-            </a>
-          </li>
-        </ul>
+              <circle cx="12" cy="12" r="2" fill="currentColor" />
+              <ellipse cx="12" cy="12" rx="10" ry="4.5" />
+              <ellipse
+                cx="12"
+                cy="12"
+                rx="10"
+                ry="4.5"
+                transform="rotate(60 12 12)"
+              />
+              <ellipse
+                cx="12"
+                cy="12"
+                rx="10"
+                ry="4.5"
+                transform="rotate(120 12 12)"
+              />
+            </svg>
+            React
+          </button>
+
+          <button
+            onClick={() => setActiveFilter("angular")}
+            className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              activeFilter === "angular"
+                ? "bg-[#dd0031] text-white font-bold"
+                : "text-neutral-400 hover:text-white"
+            }`}
+          >
+            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2L2 5.5v5.3c0 5.7 4.2 10.4 10 11.2 5.8-.8 10-5.5 10-11.2V5.5L12 2zm4.4 14h-2.2l-1-2.4H10.8l-1 2.4H7.6L12 6.2l4.4 9.8zm-3.4-4.5L12 9.2l-1 2.3h2z" />
+            </svg>
+            Angular
+          </button>
+
+          <button
+            onClick={() => setActiveFilter("vue")}
+            className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              activeFilter === "vue"
+                ? "bg-[#41b883] text-neutral-950 font-bold"
+                : "text-neutral-400 hover:text-white"
+            }`}
+          >
+            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M24 4H18L12 14L6 4H0L12 24L24 4Z M18 4H14.5L12 8.2L9.5 4H6L12 14L18 4Z" />
+            </svg>
+            Vue
+          </button>
+        </div>
+
+        <a
+          href="https://github.com/Shenkeeee/"
+          target="_blank"
+          rel="noreferrer"
+          className="text-[#f0ffff] hover:text-[#dddddd] transition-colors text-sm md:text-base font-medium px-4 py-2"
+        >
+          Back to GitHub
+        </a>
       </nav>
 
       {/* Main Content Sections */}
       <main id="main-wrapper">
+        {/* TIER 1 SECTION TITLE INTERMEDIARY */}
+        {filteredMainProjects.length > 0 && (
+          <div className="bg-[#212121] text-center pt-28 -mb-16 pb-4 snap-start">
+            <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-neutral-300">
+              Featured highlights
+            </h2>
+            <div className="h-0.5 w-20 bg-emerald-500 mx-auto mt-2.5 rounded"></div>
+          </div>
+        )}
+
         {/* TIER 1: CORE RESPONSIVE FULLSCREEN SECTIONS */}
-        {mainProjects.map((project, index) => (
+        {filteredMainProjects.map((project, index) => (
           <section
             key={index}
-            className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-24 pb-12 lg:py-0 snap-start snap-always ${
+            className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
               index % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
             }`}
           >
@@ -327,37 +424,68 @@ export default function Portfolio() {
         ))}
 
         {/* TIER 2: STRUCTURED ROW SEGMENTATION LABELS */}
-        <section className="min-h-screen bg-[#212121] px-6 py-24 snap-start snap-always border-t border-neutral-800/40">
-          <div className="max-w-[95rem] mx-auto w-full space-y-16">
-            {/* CATEGORY ROW 1: Hackathons */}
-            <div>
-              <div className="mb-6">
-                <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
-                  Hackathons
+        {(filteredHackathons.length > 0 || filteredHobbyWeb.length > 0) && (
+          <section className="min-h-screen bg-[#212121] px-6 py-24 snap-start snap-always border-t border-neutral-800/40">
+            <div className="max-w-[95rem] mx-auto w-full">
+              {/* MAIN SECTION HEADER FOR GRID OVERVIEW */}
+              <div className="mb-14 text-center">
+                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-neutral-300">
+                  More Projects
                 </h2>
-                <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
+                <div className="h-0.5 w-20 bg-emerald-500 mx-auto mt-2.5 rounded"></div>
               </div>
-              {/* Responsive 4 column container layout matrix */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                {hackathons.map((p, i) => renderCard(p, i))}
-              </div>
-            </div>
 
-            {/* CATEGORY ROW 2: Hobby (Includes Consolidated Game/Research) */}
-            <div>
-              <div className="mb-6">
-                <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
-                  Hobby
-                </h2>
-                <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
-              </div>
-              {/* Responsive 4 column container layout matrix */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                {hobbyWeb.map((p, i) => renderCard(p, i))}
+              <div className="space-y-20">
+                {/* CATEGORY ROW 1: Hackathons */}
+                {filteredHackathons.length > 0 && (
+                  <div>
+                    <div className="mb-6">
+                      <h3 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
+                        Hackathons
+                      </h3>
+                      <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                      {filteredHackathons.map((p, i) => renderCard(p, i))}
+                    </div>
+                  </div>
+                )}
+
+                {/* CATEGORY ROW 2: Hobby */}
+                {filteredHobbyWeb.length > 0 && (
+                  <div>
+                    <div className="mb-6">
+                      <h3 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
+                        Hobby & Utilities
+                      </h3>
+                      <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                      {filteredHobbyWeb.map((p, i) => renderCard(p, i))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+
+        {/* Fallback layout if everything is filtered out */}
+        {filteredMainProjects.length === 0 &&
+          filteredHackathons.length === 0 &&
+          filteredHobbyWeb.length === 0 && (
+            <div className="h-screen w-full flex flex-col items-center justify-center text-center px-4 snap-start">
+              <p className="text-neutral-400 text-lg mb-2">
+                No projects found matching that filter.
+              </p>
+              <button
+                onClick={() => setActiveFilter("all")}
+                className="text-emerald-400 hover:underline font-medium text-sm"
+              >
+                Clear Filter
+              </button>
+            </div>
+          )}
       </main>
 
       {/* Fullscreen Image Modal */}
