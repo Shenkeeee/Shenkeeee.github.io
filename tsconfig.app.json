@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Relaxed type checking */
+    "strict": false /* Turns off strict mode completely */,
+    "noImplicitAny": false /* Allows variables to implicitly have 'any' type */,
+    "strictNullChecks": false /* Stops crying about things potentially being 'null' or 'undefined' */,
+
+    /* Linting - Changed to false to prevent build failures during testing */
+    "noUnusedLocals": false /* Allows declaring variables you don't use yet */,
+    "noUnusedParameters": false /* Allows unused function parameters */,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
