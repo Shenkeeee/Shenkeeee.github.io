@@ -81,49 +81,150 @@ export default function Portfolio() {
     },
   ];
 
-  const secondaryProjects = [
+  // ROW 1: Hackathons & Sprints
+  const hackathons = [
     {
-      title: "Conqueror game",
-      tech: "Angular + Firebase + Python flask",
-      bullets: [
-        {
-          text: "Cooperated with Evosoft in an agile environment",
-          status: "check",
-        },
-        { text: "Using Scrum methodology", status: "check" },
-        { text: "Team project with 10 members", status: "check" },
-        {
-          text: "Main Role: Frontend and design with Figma, contributed to full-stack",
-          status: "check",
-        },
-      ],
+      title: "BREAD CRAMPS",
+      subtitle: "4th Hackathon Participation - GDE MIT 2026",
+      tech: "React + FastAPI + SQLite + Azure AI",
+      desc: "Logs meal sequences and physical symptom markers to map biological wellness data patterns. Built hand-in-hand under pure crunch pressure in less than 24 hours.",
+      img: "./assets/breadCramps.webp",
+      alt: "Bread Cramps presentation preview",
+      projectUrl: "https://devpost.com/software/bread-cramps",
+    },
+    {
+      title: "OTPilot",
+      subtitle: "3rd Hackathon Participation - OTP Bank IT 2025",
+      tech: "Vue + FastAPI + Azure AI",
+      desc: "An AI-driven data optimization system.",
+      img: "./assets/otpilot.webp",
+      alt: "OTPilot architecture interface layout",
+    },
+  ];
+
+  // ROW 2: Custom Web Apps, Hobby Frameworks & Engine R&D
+  const hobbyWeb = [
+    {
+      title: "Fish Anomaly Detector",
+      subtitle: "Research Support Tool",
+      tech: "React + FastAPI + AI + Railway",
+      desc: "Website that uses machine learning models on the backend to flag physical and health abnormalities in fish for a scientific research project. Has a fully editable result onto a canvas on the frontend with clipboard usage.",
+      img: "./assets/fishSegmenter.webp",
+      alt: "Fish analyzer interface",
+      demoUrl: "https://halak-web-support-production.up.railway.app/",
+    },
+    {
+      title: "Wedding Site",
+      subtitle: "Gift for Friends",
+      tech: "React + Vercel",
+      desc: "A wedding website built as a personalized gift for close friends to showcase event details, song list and timetable.",
+      img: "./assets/abiWedding.webp",
+      alt: "Wedding website preview",
+    },
+    {
+      title: "Conqueror Game",
+      subtitle: "Corporate Simulation",
+      tech: "Angular + Firebase + Flask",
+      desc: "Built in a 10-person Scrum team collaborating with Evosoft. Led the frontend development team, and designed in Figma.",
       img: "./assets/conqueror.webp",
-      alt: "Conqueror like project screenshot",
+      alt: "Conqueror game module screen",
     },
     {
       title: "Christmas Name Shuffler",
+      subtitle: "Holiday Utility App",
       tech: "React + Firebase",
-      bullets: [
-        { text: "Users can enter their names to participate", status: "check" },
-        { text: "Random name selection from the pool", status: "check" },
-        { text: "Simple and stylish user interface", status: "check" },
-      ],
+      desc: "A quick festive app for holiday gift exchanges. Features real-time group entries and randomized name drawing.",
       img: "./assets/christmas-draw.webp",
-      alt: "Christmas Draw Screenshot",
+      alt: "Christmas shuffler screen",
     },
     {
-      title: "Don't Starve: Restore the Balance edition",
-      tech: "Thesis project in Godot",
-      bullets: [
-        { text: "Light and Shadow form", status: "check" },
-        { text: "Character abilities added", status: "check" },
-        { text: "Rogue-like gameplay", status: "check" },
-        { text: "Rated max by Uni, tested by friends", status: "check" },
-      ],
+      title: "Don't Starve: Restore the Balance",
+      subtitle: "University Thesis Project",
+      tech: "Godot + GDScript",
+      desc: "A game made in godot introducing custom mechanics, light/shadow forms, and new abilities. Received a perfect score from university.",
       img: "./assets/dont-starve.webp",
-      alt: "Don't starve like project screenshot",
+      alt: "Don't Starve mod preview",
+      isNonWeb: true,
     },
   ];
+
+  const renderCard = (project, idx) => (
+    <div
+      key={idx}
+      className="bg-[#2a2a2a] rounded-xl p-5 border border-neutral-800/80 flex flex-col justify-between group hover:border-neutral-700 transition-all duration-300 shadow-md h-full"
+    >
+      <div className="flex flex-col h-full justify-between">
+        <div>
+          {/* Media Window Container with smart CSS UI Backup graphic */}
+          <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
+            {project.img ? (
+              <img
+                src={project.img}
+                alt={project.alt || project.title}
+                onClick={() => setSelectedImg(project.img)}
+                className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-300 flex items-center justify-center p-4 select-none">
+                <svg
+                  className="w-10 h-10 text-neutral-600/50"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-start justify-between gap-4 mb-1">
+            <div>
+              <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
+                {project.title}
+              </h3>
+              <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                {project.subtitle && (
+                  <p className="text-xs text-neutral-400 font-medium">
+                    {project.subtitle}
+                  </p>
+                )}
+                {project.isNonWeb && (
+                  <span className="text-[9px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-900/30 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                    Non-Web Tech
+                  </span>
+                )}
+              </div>
+            </div>
+            {project.projectUrl && (
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-neutral-950 font-semibold px-2.5 py-1 rounded transition-colors whitespace-nowrap"
+              >
+                Link ↗
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <p className="text-xs font-mono text-emerald-400/90 mb-3 bg-emerald-950/20 inline-block px-2 py-0.5 rounded border border-emerald-900/30">
+            {project.tech}
+          </p>
+          <p className="text-xs text-neutral-300 leading-relaxed font-normal line-clamp-4">
+            {project.desc}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-[#212121] text-[#f0ffff] min-h-screen snap-y snap-mandatory overflow-y-auto font-sans antialiased selection:bg-neutral-700 selection:text-white">
@@ -193,35 +294,19 @@ export default function Portfolio() {
                     className="flex items-start gap-3 text-base lg:text-xl leading-relaxed text-neutral-200"
                   >
                     <span className="mt-1 flex-shrink-0">
-                      {bullet.status === "check" ? (
-                        <svg
-                          className="w-5 h-5 text-emerald-400"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.5 12.75l6 6 9-13.5"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="w-5 h-5 text-amber-400 animate-spin"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-                          />
-                        </svg>
-                      )}
+                      <svg
+                        className="w-5 h-5 text-emerald-400"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
                     </span>
                     <span>{bullet.text}</span>
                   </li>
@@ -241,60 +326,35 @@ export default function Portfolio() {
           </section>
         ))}
 
-        {/* TIER 2: COMBINED GRID VIEW FOR ALL SECONDARY/UTILITY PROJECTS */}
-        <section className="min-h-[100dvh] lg:h-[100dvh] flex flex-col justify-center bg-[#212121] px-6 py-24 lg:py-0 snap-start snap-always border-t border-neutral-800/40">
-          <div className="max-w-[85rem] mx-auto w-full">
-            <div className="mb-8">
-              <h2 className="text-2xl lg:text-3xl font-bold tracking-tight">
-                More Projects
-              </h2>
-              <p className="text-sm lg:text-base text-neutral-400 mt-1">
-                Hobby projects & academic work
-              </p>
+        {/* TIER 2: STRUCTURED ROW SEGMENTATION LABELS */}
+        <section className="min-h-screen bg-[#212121] px-6 py-24 snap-start snap-always border-t border-neutral-800/40">
+          <div className="max-w-[95rem] mx-auto w-full space-y-16">
+            {/* CATEGORY ROW 1: Hackathons */}
+            <div>
+              <div className="mb-6">
+                <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
+                  Hackathons
+                </h2>
+                <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
+              </div>
+              {/* Responsive 4 column container layout matrix */}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                {hackathons.map((p, i) => renderCard(p, i))}
+              </div>
             </div>
 
-            {/* 3 Columns Layout Group */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-              {secondaryProjects.map((project, index) => (
-                <div
-                  key={index}
-                  className="bg-[#2a2a2a] rounded-xl p-5 border border-neutral-800/80 flex flex-col justify-between h-full group hover:border-neutral-700 transition-all duration-300 shadow-md"
-                >
-                  <div>
-                    {/* Media Display Window Container */}
-                    <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4">
-                      <img
-                        src={project.img}
-                        alt={project.alt}
-                        onClick={() => setSelectedImg(project.img)}
-                        className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
-                      />
-                    </div>
-
-                    <h3 className="text-xl font-bold text-white mb-1">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs font-mono text-emerald-400/90 mb-4 bg-emerald-950/20 inline-block px-2.5 py-0.5 rounded border border-emerald-900/30">
-                      {project.tech}
-                    </p>
-
-                    {/* Uniform List Architecture */}
-                    <ul className="space-y-2 mt-2">
-                      {project.bullets.map((bullet, bIdx) => (
-                        <li
-                          key={bIdx}
-                          className="flex items-start gap-2 text-sm text-neutral-300 leading-snug"
-                        >
-                          <span className="mt-0.5 text-emerald-500 text-xs flex-shrink-0">
-                            ✓
-                          </span>
-                          <span>{bullet.text}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
+            {/* CATEGORY ROW 2: Hobby (Includes Consolidated Game/Research) */}
+            <div>
+              <div className="mb-6">
+                <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
+                  Hobby
+                </h2>
+                <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
+              </div>
+              {/* Responsive 4 column container layout matrix */}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                {hobbyWeb.map((p, i) => renderCard(p, i))}
+              </div>
             </div>
           </div>
         </section>
@@ -316,7 +376,6 @@ export default function Portfolio() {
         >
           &times;
         </button>
-
         {selectedImg && (
           <img
             src={selectedImg}
