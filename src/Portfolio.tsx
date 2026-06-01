@@ -14,6 +14,60 @@ export default function Portfolio() {
 
   const projects = [
     {
+      title: "Btervjogsi",
+      tech: "React + Vite + FastAPI + Cloudflare + Railway",
+      bullets: [
+        {
+          text: "Main portfolio platform for a driving school",
+          status: "check",
+        },
+        {
+          text: "Highly responsive layout optimized for conversions",
+          status: "check",
+        },
+        {
+          text: "Clean component architecture and optimized assets",
+          status: "check",
+        },
+        { text: "FastAPI backend hosted on Railway", status: "check" },
+        {
+          text: "Cloudflare integration for CDN, proxy, and security",
+          status: "check",
+        },
+      ],
+      img: "./assets/btervjogsi.webp",
+      alt: "Btervjogsi project screenshot",
+      demoUrl: "https://btervjogsi.hu/",
+      statusUrl: "https://mazsolajogsi.betteruptime.com/",
+    },
+    {
+      title: "Mazsolajogsi",
+      tech: "React + Vite + FastAPI + Cloudflare + Railway",
+      bullets: [
+        {
+          text: "Main portfolio platform for a driving school",
+          status: "check",
+        },
+        {
+          text: "Highly responsive layout optimized for conversions",
+          status: "check",
+        },
+        {
+          text: "Clean component architecture and optimized assets",
+          status: "check",
+        },
+        { text: "FastAPI backend hosted on Railway", status: "check" },
+        {
+          text: "Cloudflare integration for CDN, proxy, and security",
+          status: "check",
+        },
+      ],
+      img: "./assets/mazsolajogsi.webp",
+      alt: "Mazsolajogsi project screenshot",
+      demoUrl: "https://mazsolajogsi.hu/",
+      statusUrl: "https://mazsolajogsi.betteruptime.com/",
+    },
+    {
       title: "Deckbuilder",
       tech: "Angular + Firebase + Dexie.js",
       bullets: [
@@ -23,6 +77,7 @@ export default function Portfolio() {
       ],
       img: "./assets/deckbuilder.webp",
       alt: "Deckbuilder screenshot",
+      demoUrl: "https://agilisdeckbuilder.web.app/",
     },
     {
       title: "Conqueror game",
@@ -97,9 +152,35 @@ export default function Portfolio() {
               <h2 className="text-3xl font-bold leading-9 mb-2">
                 {project.title}
               </h2>
-              <p className="text-xl text-neutral-400 my-7 leading-7">
+              <p className="text-xl text-neutral-400 my-4 leading-7">
                 {project.tech}
               </p>
+
+              {/* Interactive Dashboard Action Links */}
+              {(project.demoUrl || project.statusUrl) && (
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-5 py-2.5 rounded-md transition-colors text-base"
+                    >
+                      Visit Live Site ↗
+                    </a>
+                  )}
+                  {project.statusUrl && (
+                    <a
+                      href={project.statusUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-5 py-2.5 rounded-md transition-colors text-base"
+                    >
+                      Uptime Status
+                    </a>
+                  )}
+                </div>
+              )}
 
               <ul className="space-y-2">
                 {project.bullets.map((bullet, bIdx) => (
