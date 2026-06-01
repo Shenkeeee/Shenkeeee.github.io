@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { mainProjects, hackathons, hobbyWeb } from "./data/projects";
 
 export default function Portfolio() {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -12,142 +13,6 @@ export default function Portfolio() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  const mainProjects = [
-    {
-      title: "Btervjogsi",
-      tech: "React + Vite + FastAPI + Cloudflare + Railway",
-      bullets: [
-        {
-          text: "Main portfolio platform for a driving school",
-          status: "check",
-        },
-        {
-          text: "Highly responsive layout optimized for conversions",
-          status: "check",
-        },
-        {
-          text: "Clean component architecture and optimized assets",
-          status: "check",
-        },
-        { text: "FastAPI backend hosted on Railway", status: "check" },
-        {
-          text: "Cloudflare integration for CDN, proxy, and security",
-          status: "check",
-        },
-      ],
-      img: "./assets/btervjogsi.webp",
-      alt: "Btervjogsi project screenshot",
-      demoUrl: "https://btervjogsi.hu/",
-      statusUrl: "https://mazsolajogsi.betteruptime.com/",
-    },
-    {
-      title: "Mazsolajogsi",
-      tech: "React + Vite + FastAPI + Cloudflare + Railway",
-      bullets: [
-        {
-          text: "Main portfolio platform for a driving school",
-          status: "check",
-        },
-        {
-          text: "Highly responsive layout optimized for conversions",
-          status: "check",
-        },
-        {
-          text: "Clean component architecture and optimized assets",
-          status: "check",
-        },
-        { text: "FastAPI backend hosted on Railway", status: "check" },
-        {
-          text: "Cloudflare integration for CDN, proxy, and security",
-          status: "check",
-        },
-      ],
-      img: "./assets/mazsolajogsi.webp",
-      alt: "Mazsolajogsi project screenshot",
-      demoUrl: "https://mazsolajogsi.hu/",
-      statusUrl: "https://mazsolajogsi.betteruptime.com/",
-    },
-    {
-      title: "Deckbuilder",
-      tech: "Angular + Firebase + Dexie.js",
-      bullets: [
-        { text: "Deployed for production use", status: "check" },
-        { text: "Flexible database", status: "check" },
-        { text: "Automatic deck loading via URL", status: "check" },
-      ],
-      img: "./assets/deckbuilder.webp",
-      alt: "Deckbuilder screenshot",
-      demoUrl: "https://agilisdeckbuilder.web.app/",
-    },
-  ];
-
-  // ROW 1: Hackathons & Sprints
-  const hackathons = [
-    {
-      title: "BREAD CRAMPS",
-      subtitle: "4th Hackathon Participation - GDE MIT 2026",
-      tech: "React + FastAPI + SQLite + Azure AI",
-      desc: "Logs meal sequences and physical symptom markers to map biological wellness data patterns. Built hand-in-hand under pure crunch pressure in less than 24 hours.",
-      img: "./assets/breadCramps.webp",
-      alt: "Bread Cramps presentation preview",
-      projectUrl: "https://devpost.com/software/bread-cramps",
-    },
-    {
-      title: "OTPilot",
-      subtitle: "3rd Hackathon Participation - OTP Bank IT 2025",
-      tech: "Vue + FastAPI + Azure AI",
-      desc: "An AI-driven data optimization system.",
-      img: "./assets/otpilot.webp",
-      alt: "OTPilot architecture interface layout",
-    },
-  ];
-
-  // ROW 2: Custom Web Apps, Hobby Frameworks & Engine R&D
-  const hobbyWeb = [
-    {
-      title: "Fish Anomaly Detector",
-      subtitle: "Research Support Tool",
-      tech: "React + FastAPI + AI + Railway",
-      desc: "Website that uses machine learning models on the backend to flag physical and health abnormalities in fish for a scientific research project. Has a fully editable result onto a canvas on the frontend with clipboard usage.",
-      img: "./assets/fishSegmenter.webp",
-      alt: "Fish analyzer interface",
-      demoUrl: "https://halak-web-support-production.up.railway.app/",
-    },
-    {
-      title: "Wedding Site",
-      subtitle: "Gift for Friends",
-      tech: "React + Vercel",
-      desc: "A wedding website built as a personalized gift for close friends to showcase event details, song list and timetable.",
-      img: "./assets/abiWedding.webp",
-      alt: "Wedding website preview",
-    },
-    {
-      title: "Conqueror Game",
-      subtitle: "Corporate Simulation",
-      tech: "Angular + Firebase + Flask",
-      desc: "Built in a 10-person Scrum team collaborating with Evosoft. Led the frontend development team, and designed in Figma.",
-      img: "./assets/conqueror.webp",
-      alt: "Conqueror game module screen",
-    },
-    {
-      title: "Christmas Name Shuffler",
-      subtitle: "Holiday Utility App",
-      tech: "React + Firebase",
-      desc: "A quick festive app for holiday gift exchanges. Features real-time group entries and randomized name drawing.",
-      img: "./assets/christmas-draw.webp",
-      alt: "Christmas shuffler screen",
-    },
-    {
-      title: "Don't Starve: Restore the Balance",
-      subtitle: "University Thesis Project",
-      tech: "Godot + GDScript",
-      desc: "A game made in godot introducing custom mechanics, light/shadow forms, and new abilities. Received a perfect score from university.",
-      img: "./assets/dont-starve.webp",
-      alt: "Don't Starve mod preview",
-      isNonWeb: true,
-    },
-  ];
 
   // Logic helper to match technologies
   const matchesFilter = (techString) => {
@@ -164,77 +29,77 @@ export default function Portfolio() {
   const renderCard = (project, idx) => (
     <div
       key={idx}
-      className="bg-[#2a2a2a] rounded-xl p-5 border border-neutral-800/80 flex flex-col justify-between group hover:border-neutral-700 transition-all duration-300 shadow-md h-full"
+      className="bg-[#2a2a2a] rounded-xl p-5 border border-neutral-800/80 flex flex-col group hover:border-neutral-700 transition-all duration-300 shadow-md h-full"
     >
-      <div className="flex flex-col h-full justify-between">
-        <div>
-          {/* Media Window Container */}
-          <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
-            {project.img ? (
-              <img
-                src={project.img}
-                alt={project.alt || project.title}
-                onClick={() => setSelectedImg(project.img)}
-                className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
+      {/* Media Window Container */}
+      <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
+        {project.img ? (
+          <img
+            src={project.img}
+            alt={project.alt || project.title}
+            onClick={() => setSelectedImg(project.img)}
+            className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-[#242424] via-[#2c2c2c] to-[#242424] flex items-center justify-center p-4 select-none">
+            <svg
+              className="w-10 h-10 text-neutral-600/50"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.25"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 00.1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"
               />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-[#242424] via-[#2c2c2c] to-[#242424] flex items-center justify-center p-4 select-none">
-                <svg
-                  className="w-10 h-10 text-neutral-600/50"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 00.1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"
-                  />
-                </svg>
-              </div>
-            )}
+            </svg>
           </div>
+        )}
+      </div>
 
-          <div className="flex items-start justify-between gap-4 mb-2">
-            <div>
-              <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
-                {project.title}
-              </h3>
-              <div className="flex flex-wrap items-center gap-2 mt-1">
-                {project.subtitle && (
-                  <p className="text-xs md:text-sm text-neutral-400 font-medium">
-                    {project.subtitle}
-                  </p>
-                )}
-                {project.isNonWeb && (
-                  <span className="text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-900/30 px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
-                    Non-Web Tech
-                  </span>
-                )}
-              </div>
-            </div>
-            {project.projectUrl && (
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-neutral-950 font-semibold px-2.5 py-1 rounded transition-colors whitespace-nowrap"
-              >
-                Link ↗
-              </a>
-            )}
-          </div>
-        </div>
+      {/* Header Row: Title & Action Link */}
+      <div className="flex items-start justify-between gap-4 mb-1.5">
+        <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
+          {project.title}
+        </h3>
+        {project.projectUrl && (
+          <a
+            href={project.projectUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-neutral-950 font-semibold px-2.5 py-1 rounded transition-colors whitespace-nowrap"
+          >
+            Link ↗
+          </a>
+        )}
+      </div>
 
-        <div className="mt-3">
-          <p className="text-xs font-mono text-emerald-400/90 mb-3 bg-emerald-950/20 inline-block px-2.5 py-1 rounded border border-emerald-900/30">
-            {project.tech}
-          </p>
-          <p className="text-sm text-neutral-300 leading-relaxed font-normal line-clamp-4">
-            {project.desc}
-          </p>
+      {/* Subtitles / Badges Metadata */}
+      {(project.subtitle || project.isNonWeb) && (
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          {project.subtitle && (
+            <p className="text-xs md:text-sm text-neutral-400 font-medium">
+              {project.subtitle}
+            </p>
+          )}
+          {project.isNonWeb && (
+            <span className="text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-900/30 px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
+              Non-Web Tech
+            </span>
+          )}
         </div>
+      )}
+
+      {/* Tech Stack Badge & Description */}
+      <div className="mt-1">
+        <p className="text-xs font-mono text-emerald-400/90 mb-2 bg-emerald-950/20 inline-block px-2.5 py-1 rounded border border-emerald-900/30">
+          {project.tech}
+        </p>
+        <p className="text-sm text-neutral-300 leading-relaxed font-normal line-clamp-4">
+          {project.desc}
+        </p>
       </div>
     </div>
   );
@@ -243,7 +108,6 @@ export default function Portfolio() {
     <div className="bg-[#212121] text-[#f0ffff] min-h-screen snap-y snap-mandatory overflow-y-auto font-sans antialiased selection:bg-neutral-700 selection:text-white">
       {/* Dynamic Navigation & Framework Filter Menu */}
       <nav className="fixed top-0 left-0 z-50 w-full p-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-[2px]">
-        {/* Filter Badges Container */}
         <div className="flex items-center gap-1.5 bg-neutral-900/90 p-1 rounded-lg border border-neutral-800 shadow-xl">
           <button
             onClick={() => setActiveFilter("all")}
@@ -264,7 +128,6 @@ export default function Portfolio() {
                 : "text-neutral-400 hover:text-white"
             }`}
           >
-            {/* Corrected React SVG */}
             <svg
               className="w-3.5 h-3.5 fill-none stroke-current"
               strokeWidth="2"
@@ -427,7 +290,6 @@ export default function Portfolio() {
         {(filteredHackathons.length > 0 || filteredHobbyWeb.length > 0) && (
           <section className="min-h-screen bg-[#212121] px-6 py-24 snap-start snap-always border-t border-neutral-800/40">
             <div className="max-w-[95rem] mx-auto w-full">
-              {/* MAIN SECTION HEADER FOR GRID OVERVIEW */}
               <div className="mb-14 text-center">
                 <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-neutral-300">
                   More Projects
@@ -451,12 +313,12 @@ export default function Portfolio() {
                   </div>
                 )}
 
-                {/* CATEGORY ROW 2: Hobby */}
+                {/* CATEGORY ROW 2: Hobby & Other */}
                 {filteredHobbyWeb.length > 0 && (
                   <div>
                     <div className="mb-6">
                       <h3 className="text-xl lg:text-2xl font-bold tracking-tight text-white">
-                        Hobby & Utilities
+                        Hobby & Other
                       </h3>
                       <div className="h-0.5 w-12 bg-emerald-500 mt-1.5 rounded"></div>
                     </div>
