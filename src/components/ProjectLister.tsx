@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { hackathons, hobbyWeb, mainProjects } from "../data/projects";
 
-const ProjectLister = ({ activeFilter, setActiveFilter, setSelectedImg }) => {
+const ProjectLister = ({
+  activeFilter,
+  setActiveFilter,
+  setSelectedImg,
+}: {
+  activeFilter: string;
+  setActiveFilter: (filter: string) => void;
+  setSelectedImg: (img: string) => void;
+}) => {
   // Logic helper to match technologies
-  const matchesFilter = (techString) => {
+  const matchesFilter = (techString: string) => {
     if (activeFilter === "all") return true;
     return techString.toLowerCase().includes(activeFilter);
   };
@@ -13,7 +22,16 @@ const ProjectLister = ({ activeFilter, setActiveFilter, setSelectedImg }) => {
   const filteredHackathons = hackathons.filter((p) => matchesFilter(p.tech));
   const filteredHobbyWeb = hobbyWeb.filter((p) => matchesFilter(p.tech));
 
-  const renderCard = (project, idx) => (
+  // Identify grouped elements
+  const groupedItems = filteredMainProjects.filter((p) => p.group === 1);
+  const remainingMainProjects = filteredMainProjects.filter(
+    (p) => p.group !== 1,
+  );
+
+  // State to handle inner toggle index if a valid group exists
+  const [activeSubIndex, setActiveSubIndex] = useState<number>(0);
+
+  const renderCard = (project: any, idx: number) => (
     <div
       key={idx}
       className="bg-[#2a2a2a] rounded-xl p-5 border border-neutral-800/80 flex flex-col group hover:border-neutral-700 transition-all duration-300 shadow-md h-full"
@@ -103,51 +121,61 @@ const ProjectLister = ({ activeFilter, setActiveFilter, setSelectedImg }) => {
         </div>
       )}
 
-      {/* TIER 1: CORE RESPONSIVE FULLSCREEN SECTIONS */}
-      {filteredMainProjects.map((project, index) => (
-        <section
-          key={index}
-          className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
-            index % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
-          }`}
-        >
-          {/* Text Information column */}
+      {/* COMBINED GROUP SECTION */}
+      {groupedItems.length >= 2 && (
+        <section className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always bg-[#212121]">
           <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
-            <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2">
-              {project.title}
+            <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
+              {groupedItems[0].title} & {groupedItems[1].title}
             </h2>
             <p className="text-base lg:text-xl text-neutral-400 my-3 lg:my-4 leading-relaxed">
-              {project.tech}
+              {groupedItems[0].tech}
             </p>
 
-            {/* Interactive Dashboard Action Links */}
-            {(project.demoUrl || project.statusUrl) && (
-              <div className="flex flex-wrap gap-3 mb-6">
-                {project.demoUrl && (
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
-                  >
-                    Visit Live Site ↗
-                  </a>
-                )}
-                {project.statusUrl && (
-                  <a
-                    href={project.statusUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
-                  >
-                    Uptime Status
-                  </a>
-                )}
-              </div>
-            )}
+            {/* Interactive Toggle Pill Switchers */}
+            <div className="flex items-center gap-2 mb-4 bg-neutral-900 p-1 rounded-lg border border-neutral-800 max-w-xs">
+              {groupedItems.map((item, sIdx) => (
+                <button
+                  key={sIdx}
+                  onClick={() => setActiveSubIndex(sIdx)}
+                  className={`flex-1 text-xs font-medium py-1.5 px-3 rounded-md transition-all ${
+                    activeSubIndex === sIdx
+                      ? "bg-emerald-500 text-neutral-950 font-bold shadow-sm"
+                      : "text-neutral-400 hover:text-neutral-200"
+                  }`}
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
 
+            {/* Dynamic Live Actions targeting the active sub-index configuration */}
+            <div className="flex flex-wrap gap-3 mb-6">
+              {groupedItems[activeSubIndex]?.demoUrl && (
+                <a
+                  href={groupedItems[activeSubIndex].demoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
+                >
+                  Visit Live Site
+                </a>
+              )}
+              {groupedItems[activeSubIndex]?.statusUrl && (
+                <a
+                  href={groupedItems[activeSubIndex].statusUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
+                >
+                  Uptime Status
+                </a>
+              )}
+            </div>
+
+            {/* Bullet points mapping exclusively from the first entity */}
             <ul className="space-y-2">
-              {project.bullets.map((bullet, bIdx) => (
+              {groupedItems[0].bullets.map((bullet, bIdx) => (
                 <li
                   key={bIdx}
                   className="flex items-start gap-3 text-base lg:text-xl leading-relaxed text-neutral-200"
@@ -173,17 +201,112 @@ const ProjectLister = ({ activeFilter, setActiveFilter, setSelectedImg }) => {
             </ul>
           </div>
 
-          {/* Picture column */}
-          <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem]">
-            <img
-              src={project.img}
-              alt={project.alt}
-              onClick={() => setSelectedImg(project.img)}
-              className="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
-            />
+          {/* Picture column: Side-by-side dynamic slide rendering with crossfade opacity */}
+          <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem] relative overflow-hidden aspect-[16/9] rounded-xl shadow-2xl border border-neutral-800 bg-neutral-950">
+            {groupedItems.map((item, idx) => {
+              const isActive = activeSubIndex === idx;
+              return (
+                <img
+                  key={idx}
+                  src={item.img}
+                  alt={item.alt}
+                  onClick={() => setSelectedImg(item.img)}
+                  className={`absolute inset-0 w-full h-full object-cover rounded-xl cursor-pointer transition-all duration-200 ease-in-out ${
+                    isActive
+                      ? "opacity-100 translate-x-0 scale-100 z-10 pointer-events-auto"
+                      : idx < activeSubIndex
+                        ? "opacity-0 -translate-x-4 scale-[0.98] z-0 pointer-events-none"
+                        : "opacity-0 translate-x-4 scale-[0.98] z-0 pointer-events-none"
+                  }`}
+                />
+              );
+            })}
           </div>
         </section>
-      ))}
+      )}
+
+      {/* UNGROUPED MAIN PROJECTS */}
+      {remainingMainProjects.map((project, index) => {
+        // Adjust modulo background coloring offset context safely if group injection shifted things
+        const visualIndex = groupedItems.length >= 2 ? index + 1 : index;
+        return (
+          <section
+            key={index}
+            className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
+              visualIndex % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
+            }`}
+          >
+            <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
+              <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
+                {project.title}
+              </h2>
+              <p className="text-base lg:text-xl text-neutral-400 my-3 lg:my-4 leading-relaxed">
+                {project.tech}
+              </p>
+
+              {(project.demoUrl || project.statusUrl) && (
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
+                    >
+                      Visit Live Site
+                    </a>
+                  )}
+                  {project.statusUrl && (
+                    <a
+                      href={project.statusUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
+                    >
+                      Uptime Status
+                    </a>
+                  )}
+                </div>
+              )}
+
+              <ul className="space-y-2">
+                {project.bullets.map((bullet, bIdx) => (
+                  <li
+                    key={bIdx}
+                    className="flex items-start gap-3 text-base lg:text-xl leading-relaxed text-neutral-200"
+                  >
+                    <span className="mt-1 flex-shrink-0">
+                      <svg
+                        className="w-5 h-5 text-emerald-400"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                    </span>
+                    <span>{bullet.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem]">
+              <img
+                src={project.img}
+                alt={project.alt}
+                onClick={() => setSelectedImg(project.img)}
+                className="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
+              />
+            </div>
+          </section>
+        );
+      })}
 
       {/* TIER 2: STRUCTURED ROW SEGMENTATION LABELS */}
       {(filteredHackathons.length > 0 || filteredHobbyWeb.length > 0) && (

@@ -1,32 +1,5 @@
 export const mainProjects = [
   {
-    title: "Btervjogsi",
-    tech: "React + Vite + FastAPI + Cloudflare + Railway",
-    bullets: [
-      {
-        text: "Main portfolio platform for a driving school",
-        status: "check",
-      },
-      {
-        text: "Highly responsive layout optimized for conversions",
-        status: "check",
-      },
-      {
-        text: "Clean component architecture and optimized assets",
-        status: "check",
-      },
-      { text: "FastAPI backend hosted on Railway", status: "check" },
-      {
-        text: "Cloudflare integration for CDN, proxy, and security",
-        status: "check",
-      },
-    ],
-    img: "./assets/btervjogsi.webp",
-    alt: "Btervjogsi project screenshot",
-    demoUrl: "https://btervjogsi.hu/",
-    statusUrl: "https://mazsolajogsi.betteruptime.com/",
-  },
-  {
     title: "Mazsolajogsi",
     tech: "React + Vite + FastAPI + Cloudflare + Railway",
     bullets: [
@@ -52,6 +25,35 @@ export const mainProjects = [
     alt: "Mazsolajogsi project screenshot",
     demoUrl: "https://mazsolajogsi.hu/",
     statusUrl: "https://mazsolajogsi.betteruptime.com/",
+    group: 1,
+  },
+  {
+    title: "Btervjogsi",
+    tech: "React + Vite + FastAPI + Cloudflare + Railway",
+    bullets: [
+      {
+        text: "Main portfolio platform for a driving school",
+        status: "check",
+      },
+      {
+        text: "Highly responsive layout optimized for conversions",
+        status: "check",
+      },
+      {
+        text: "Clean component architecture and optimized assets",
+        status: "check",
+      },
+      { text: "FastAPI backend hosted on Railway", status: "check" },
+      {
+        text: "Cloudflare integration for CDN, proxy, and security",
+        status: "check",
+      },
+    ],
+    img: "./assets/btervjogsi.webp",
+    alt: "Btervjogsi project screenshot",
+    demoUrl: "https://btervjogsi.hu/",
+    statusUrl: "https://mazsolajogsi.betteruptime.com/",
+    group: 1,
   },
   {
     title: "Deckbuilder",
