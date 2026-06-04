@@ -113,7 +113,7 @@ const ProjectLister = ({
     <main id="main-wrapper">
       {/* TIER 1 SECTION TITLE INTERMEDIARY */}
       {filteredMainProjects.length > 0 && (
-        <div className="bg-[#212121] text-center pt-28 -mb-16 pb-4 snap-start">
+        <div className="bg-[#212121] text-center pt-40 -mb-32 pb-4 snap-start relative z-20">
           <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-neutral-300">
             Featured highlights
           </h2>
