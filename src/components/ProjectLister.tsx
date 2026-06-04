@@ -124,6 +124,7 @@ const ProjectLister = ({
       {/* COMBINED GROUP SECTION */}
       {groupedItems.length >= 2 && (
         <section className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always bg-[#212121]">
+          {/* Text Information column */}
           <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
             <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
               {groupedItems[0].title} & {groupedItems[1].title}
@@ -131,23 +132,6 @@ const ProjectLister = ({
             <p className="text-base lg:text-xl text-neutral-400 my-3 lg:my-4 leading-relaxed">
               {groupedItems[0].tech}
             </p>
-
-            {/* Interactive Toggle Pill Switchers */}
-            <div className="flex items-center gap-2 mb-4 bg-neutral-900 p-1 rounded-lg border border-neutral-800 max-w-xs">
-              {groupedItems.map((item, sIdx) => (
-                <button
-                  key={sIdx}
-                  onClick={() => setActiveSubIndex(sIdx)}
-                  className={`flex-1 text-xs font-medium py-1.5 px-3 rounded-md transition-all ${
-                    activeSubIndex === sIdx
-                      ? "bg-emerald-500 text-neutral-950 font-bold shadow-sm"
-                      : "text-neutral-400 hover:text-neutral-200"
-                  }`}
-                >
-                  {item.title}
-                </button>
-              ))}
-            </div>
 
             {/* Dynamic Live Actions targeting the active sub-index configuration */}
             <div className="flex flex-wrap gap-3 mb-6">
@@ -158,7 +142,7 @@ const ProjectLister = ({
                   rel="noreferrer"
                   className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
                 >
-                  Visit Live Site
+                  Visit Live ({groupedItems[activeSubIndex].title})
                 </a>
               )}
               {groupedItems[activeSubIndex]?.statusUrl && (
@@ -201,33 +185,52 @@ const ProjectLister = ({
             </ul>
           </div>
 
-          {/* Picture column: Side-by-side dynamic slide rendering with crossfade opacity */}
-          <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem] relative overflow-hidden aspect-[16/9] rounded-xl shadow-2xl border border-neutral-800 bg-neutral-950">
-            {groupedItems.map((item, idx) => {
-              const isActive = activeSubIndex === idx;
-              return (
-                <img
-                  key={idx}
-                  src={item.img}
-                  alt={item.alt}
-                  onClick={() => setSelectedImg(item.img)}
-                  className={`absolute inset-0 w-full h-full object-cover rounded-xl cursor-pointer transition-all duration-200 ease-in-out ${
-                    isActive
-                      ? "opacity-100 translate-x-0 scale-100 z-10 pointer-events-auto"
-                      : idx < activeSubIndex
-                        ? "opacity-0 -translate-x-4 scale-[0.98] z-0 pointer-events-none"
-                        : "opacity-0 translate-x-4 scale-[0.98] z-0 pointer-events-none"
+          {/* Picture column + Selector Integration Layer */}
+          <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem] flex flex-col gap-4">
+            {/* Aspect Window with fixed crossfade layer indices */}
+            <div className="w-full relative overflow-hidden aspect-[16/9] rounded-xl shadow-2xl border border-neutral-800 bg-neutral-950">
+              {groupedItems.map((item, idx) => {
+                const isActive = activeSubIndex === idx;
+                return (
+                  <img
+                    key={idx}
+                    src={item.img}
+                    alt={item.alt}
+                    onClick={() => setSelectedImg(item.img)}
+                    className={`absolute inset-0 w-full h-full object-cover rounded-xl cursor-pointer transition-all duration-200 ease-in-out ${
+                      isActive
+                        ? "opacity-100 translate-x-0 scale-100 z-10 pointer-events-auto"
+                        : idx < activeSubIndex
+                          ? "opacity-0 -translate-x-4 scale-[0.98] z-0 pointer-events-none"
+                          : "opacity-0 translate-x-4 scale-[0.98] z-0 pointer-events-none"
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Interactive Toggle Pill Switchers placed right under the card preview viewport */}
+            <div className="flex items-center gap-2 bg-neutral-900/90 p-1.5 rounded-xl border border-neutral-800/80 max-w-xs self-start lg:self-center w-full shadow-md">
+              {groupedItems.map((item, sIdx) => (
+                <button
+                  key={sIdx}
+                  onClick={() => setActiveSubIndex(sIdx)}
+                  className={`flex-1 text-xs md:text-sm font-semibold py-2 px-3 rounded-lg transition-all ${
+                    activeSubIndex === sIdx
+                      ? "bg-emerald-500 text-neutral-950 shadow-sm"
+                      : "text-neutral-400 hover:text-neutral-200"
                   }`}
-                />
-              );
-            })}
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
       )}
 
       {/* UNGROUPED MAIN PROJECTS */}
       {remainingMainProjects.map((project, index) => {
-        // Adjust modulo background coloring offset context safely if group injection shifted things
         const visualIndex = groupedItems.length >= 2 ? index + 1 : index;
         return (
           <section
