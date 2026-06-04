@@ -78,7 +78,6 @@ const Navbar = ({ activeFilter, setActiveFilter }) => {
 
       <a
         href="https://github.com/Shenkeeee/"
-        target="_blank"
         rel="noreferrer"
         className="text-[#f0ffff] hover:text-[#dddddd] transition-colors text-sm md:text-base font-medium px-4 py-2"
       >
