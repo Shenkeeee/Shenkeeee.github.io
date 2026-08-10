@@ -1,8 +1,3 @@
-// A project can define `images: string[]` (gallery, e.g. from a folder named
-// 1_x.webp, 2_y.webp) or fall back to a single `img`.
-export const getImages = (project: { img?: string; images?: string[] }) =>
-  project.images ?? (project.img ? [project.img] : []);
-
 export const mainProjects = [
   {
     title: "GameGuardShop",
@@ -25,13 +20,7 @@ export const mainProjects = [
         status: "check",
       },
     ],
-    images: [
-      "./assets/GameGuardShop/1_Home_Header.webp",
-      "./assets/GameGuardShop/2_Termekek.webp",
-      "./assets/GameGuardShop/3_Termek-id.webp",
-      "./assets/GameGuardShop/4_Admin_Termekek.webp",
-      "./assets/GameGuardShop/5_Profil_Orders.webp",
-    ],
+    folder: "GameGuardShop",
     alt: "GameGuardShop project screenshot",
   },
   {

@@ -1,10 +1,6 @@
 import { useState } from "react";
-import {
-  getImages,
-  hackathons,
-  hobbyWeb,
-  mainProjects,
-} from "../data/projects";
+import { hackathons, hobbyWeb, mainProjects } from "../data/projects";
+import { getImages } from "../utils/getImages";
 import ProjectGallery from "./ProjectGallery";
 
 const ProjectLister = ({
@@ -30,9 +26,24 @@ const ProjectLister = ({
 
   // Identify grouped elements
   const groupedItems = filteredMainProjects.filter((p) => p.group === 1);
-  const remainingMainProjects = filteredMainProjects.filter(
-    (p) => p.group !== 1,
-  );
+  const hasGroup = groupedItems.length >= 2;
+
+  // Build the render order as it appears in the data, collapsing the
+  // grouped pair into a single block at the position of its first member.
+  const blocks: Array<
+    { type: "group"; items: typeof groupedItems } | { type: "single"; item: (typeof filteredMainProjects)[number] }
+  > = [];
+  let groupBlockAdded = false;
+  filteredMainProjects.forEach((project) => {
+    if (project.group === 1) {
+      if (hasGroup && !groupBlockAdded) {
+        blocks.push({ type: "group", items: groupedItems });
+        groupBlockAdded = true;
+      }
+    } else {
+      blocks.push({ type: "single", item: project });
+    }
+  });
 
   // State to handle inner toggle index if a valid group exists
   const [activeSubIndex, setActiveSubIndex] = useState<number>(0);
@@ -44,7 +55,7 @@ const ProjectLister = ({
     >
       {/* Media Window Container */}
       <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
-        {project.img || project.images ? (
+        {project.img || project.folder ? (
           <ProjectGallery
             images={getImages(project)}
             alt={project.alt || project.title}
@@ -128,9 +139,15 @@ const ProjectLister = ({
         </div>
       )}
 
-      {/* COMBINED GROUP SECTION */}
-      {groupedItems.length >= 2 && (
-        <section className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always bg-[#212121]">
+      {/* MAIN PROJECT BLOCKS, in data order (grouped pair collapses into one block) */}
+      {blocks.map((block, visualIndex) =>
+        block.type === "group" ? (
+        <section
+          key="group"
+          className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
+            visualIndex % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
+          }`}
+        >
           {/* Text Information column */}
           <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
             <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
@@ -234,89 +251,84 @@ const ProjectLister = ({
             </div>
           </div>
         </section>
-      )}
+        ) : (
+        <section
+          key={block.item.title}
+          className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
+            visualIndex % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
+          }`}
+        >
+          <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
+            <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
+              {block.item.title}
+            </h2>
+            <p className="text-base lg:text-xl text-neutral-400 my-3 lg:my-4 leading-relaxed">
+              {block.item.tech}
+            </p>
 
-      {/* UNGROUPED MAIN PROJECTS */}
-      {remainingMainProjects.map((project, index) => {
-        const visualIndex = groupedItems.length >= 2 ? index + 1 : index;
-        return (
-          <section
-            key={index}
-            className={`flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 min-h-[100dvh] lg:h-[100dvh] px-5 pt-28 pb-12 lg:py-0 snap-start snap-always ${
-              visualIndex % 2 === 1 ? "bg-[#282828]" : "bg-[#212121]"
-            }`}
-          >
-            <div className="w-full lg:flex-1 lg:basis-[34%] max-w-xl">
-              <h2 className="text-2xl lg:text-3xl font-bold leading-tight lg:leading-9 mb-2 text-white">
-                {project.title}
-              </h2>
-              <p className="text-base lg:text-xl text-neutral-400 my-3 lg:my-4 leading-relaxed">
-                {project.tech}
-              </p>
-
-              {(project.demoUrl || project.statusUrl) && (
-                <div className="flex flex-wrap gap-3 mb-6">
-                  {project.demoUrl && (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
-                    >
-                      Visit Live Site
-                    </a>
-                  )}
-                  {project.statusUrl && (
-                    <a
-                      href={project.statusUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
-                    >
-                      Uptime Status
-                    </a>
-                  )}
-                </div>
-              )}
-
-              <ul className="space-y-2">
-                {project.bullets.map((bullet, bIdx) => (
-                  <li
-                    key={bIdx}
-                    className="flex items-start gap-3 text-base lg:text-xl leading-relaxed text-neutral-200"
+            {(block.item.demoUrl || block.item.statusUrl) && (
+              <div className="flex flex-wrap gap-3 mb-6">
+                {block.item.demoUrl && (
+                  <a
+                    href={block.item.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-bold px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
                   >
-                    <span className="mt-1 flex-shrink-0">
-                      <svg
-                        className="w-5 h-5 text-emerald-400"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4.5 12.75l6 6 9-13.5"
-                        />
-                      </svg>
-                    </span>
-                    <span>{bullet.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    Visit Live Site
+                  </a>
+                )}
+                {block.item.statusUrl && (
+                  <a
+                    href={block.item.statusUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 font-medium px-4 lg:px-5 py-2 lg:py-2.5 rounded-md transition-colors text-sm lg:text-base"
+                  >
+                    Uptime Status
+                  </a>
+                )}
+              </div>
+            )}
 
-            <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem]">
-              <ProjectGallery
-                images={getImages(project)}
-                alt={project.alt}
-                onOpen={openGallery}
-                imgClassName="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
-              />
-            </div>
-          </section>
-        );
-      })}
+            <ul className="space-y-2">
+              {block.item.bullets.map((bullet, bIdx) => (
+                <li
+                  key={bIdx}
+                  className="flex items-start gap-3 text-base lg:text-xl leading-relaxed text-neutral-200"
+                >
+                  <span className="mt-1 flex-shrink-0">
+                    <svg
+                      className="w-5 h-5 text-emerald-400"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </span>
+                  <span>{bullet.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem]">
+            <ProjectGallery
+              images={getImages(block.item)}
+              alt={block.item.alt}
+              onOpen={openGallery}
+              imgClassName="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
+            />
+          </div>
+        </section>
+        ),
+      )}
 
       {/* TIER 2: STRUCTURED ROW SEGMENTATION LABELS */}
       {(filteredHackathons.length > 0 || filteredHobbyWeb.length > 0) && (
