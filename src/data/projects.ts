@@ -1,4 +1,40 @@
+// A project can define `images: string[]` (gallery, e.g. from a folder named
+// 1_x.webp, 2_y.webp) or fall back to a single `img`.
+export const getImages = (project: { img?: string; images?: string[] }) =>
+  project.images ?? (project.img ? [project.img] : []);
+
 export const mainProjects = [
+  {
+    title: "GameGuardShop",
+    tech: "Next.js + FastAPI + PostgreSQL + Cloudflare R2 + Railway",
+    bullets: [
+      {
+        text: "Full-featured e-commerce shop for TCG accessories",
+        status: "check",
+      },
+      {
+        text: "Custom token-based auth with Google sign-in",
+        status: "check",
+      },
+      {
+        text: "Számlázz.hu invoicing & SimplePay payment integration",
+        status: "check",
+      },
+      { text: "FastAPI + PostgreSQL backend, hosted on Railway", status: "check" },
+      {
+        text: "Cloudflare R2 image storage, DNS & CDN proxy",
+        status: "check",
+      },
+    ],
+    images: [
+      "./assets/GameGuardShop/1_Home_Header.webp",
+      "./assets/GameGuardShop/2_Termekek.webp",
+      "./assets/GameGuardShop/3_Termek-id.webp",
+      "./assets/GameGuardShop/4_Admin_Termekek.webp",
+      "./assets/GameGuardShop/5_Profil_Orders.webp",
+    ],
+    alt: "GameGuardShop project screenshot",
+  },
   {
     title: "Mazsolajogsi",
     tech: "React + Vite + FastAPI + Cloudflare + Railway",

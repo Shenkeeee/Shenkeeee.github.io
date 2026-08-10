@@ -1,14 +1,20 @@
 import { useState } from "react";
-import { hackathons, hobbyWeb, mainProjects } from "../data/projects";
+import {
+  getImages,
+  hackathons,
+  hobbyWeb,
+  mainProjects,
+} from "../data/projects";
+import ProjectGallery from "./ProjectGallery";
 
 const ProjectLister = ({
   activeFilter,
   setActiveFilter,
-  setSelectedImg,
+  openGallery,
 }: {
   activeFilter: string;
   setActiveFilter: (filter: string) => void;
-  setSelectedImg: (img: string) => void;
+  openGallery: (images: string[], index: number) => void;
 }) => {
   // Logic helper to match technologies
   const matchesFilter = (techString: string) => {
@@ -38,12 +44,13 @@ const ProjectLister = ({
     >
       {/* Media Window Container */}
       <div className="overflow-hidden rounded-lg bg-neutral-900 border border-neutral-950 aspect-video mb-4 relative flex items-center justify-center">
-        {project.img ? (
-          <img
-            src={project.img}
+        {project.img || project.images ? (
+          <ProjectGallery
+            images={getImages(project)}
             alt={project.alt || project.title}
-            onClick={() => setSelectedImg(project.img)}
-            className="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
+            onOpen={openGallery}
+            className="w-full h-full"
+            imgClassName="w-full h-full object-cover cursor-zoom-in lg:group-hover:scale-[1.02] transition-transform duration-300"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[#242424] via-[#2c2c2c] to-[#242424] flex items-center justify-center p-4 select-none">
@@ -196,7 +203,7 @@ const ProjectLister = ({
                     key={idx}
                     src={item.img}
                     alt={item.alt}
-                    onClick={() => setSelectedImg(item.img)}
+                    onClick={() => openGallery(getImages(item), 0)}
                     className={`absolute inset-0 w-full h-full object-cover rounded-xl cursor-pointer transition-all duration-200 ease-in-out ${
                       isActive
                         ? "opacity-100 translate-x-0 scale-100 z-10 pointer-events-auto"
@@ -300,11 +307,11 @@ const ProjectLister = ({
             </div>
 
             <div className="w-full lg:flex-1 lg:basis-[59%] max-w-[70rem]">
-              <img
-                src={project.img}
+              <ProjectGallery
+                images={getImages(project)}
                 alt={project.alt}
-                onClick={() => setSelectedImg(project.img)}
-                className="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
+                onOpen={openGallery}
+                imgClassName="w-full max-w-full rounded-xl shadow-lg transition-transform duration-300 lg:hover:scale-[1.01] cursor-pointer object-cover"
               />
             </div>
           </section>
