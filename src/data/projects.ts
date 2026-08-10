@@ -6,23 +6,22 @@ export const getImages = (project: { img?: string; images?: string[] }) =>
 export const mainProjects = [
   {
     title: "GameGuardShop",
-    tech: "Next.js + FastAPI + PostgreSQL + Cloudflare R2 + Railway",
+    tech: "Next.js + FastAPI + TailwindCSS + Railway + Cloudflare",
     bullets: [
       {
-        text: "Full-featured e-commerce shop for TCG accessories",
-        status: "check",
-      },
-      {
-        text: "Custom token-based auth with Google sign-in",
+        text: "Clean and scalable e-commerce shop for board game accessories",
         status: "check",
       },
       {
         text: "Számlázz.hu invoicing & SimplePay payment integration",
         status: "check",
       },
-      { text: "FastAPI + PostgreSQL backend, hosted on Railway", status: "check" },
       {
-        text: "Cloudflare R2 image storage, DNS & CDN proxy",
+        text: "Foxpost for shipping & dynamic Privacy Policy integration",
+        status: "check",
+      },
+      {
+        text: "Clean and user-friendly admin page",
         status: "check",
       },
     ],
